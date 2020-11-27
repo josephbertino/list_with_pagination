@@ -148,8 +148,7 @@ const addPagination = (list) => {
     // Use the innerHTML property set the HTML content of the link-list variable you just created to an empty string. 
     buttonList.innerHTML = '';
     
-    // Loop over the variable for the number of pages needed that you created earlier.
-    // Only create pagination buttons if there will be at least 2.
+    // Only create pagination buttons (and their listener events) if there will be at least 2.
     if (pageCount > 1) {    
         for (let i = 1; i <= pageCount; i++) {
             // Create the DOM elements needed to display the pagination button as you iterate over the number of pages.
@@ -160,30 +159,30 @@ const addPagination = (list) => {
             `;
             buttonList.insertAdjacentHTML('beforeend',buttonHTML);
         }
+    
+        // Select the first pagination button and give it a class name of active.
+        const first = buttonList.firstElementChild.querySelector('button');
+        first.className = 'active';
+        
+        // Create an event listener to listen for clicks on the link-list variable that you created earlier.
+        buttonList.addEventListener('click', (e) => {
+            // The click event should only fire when the buttons are clicked.
+            if (e.target.tagName === 'BUTTON') {
+                // Remove the active class from any other pagination button.
+                const buttons = buttonList.querySelectorAll('BUTTON');
+                [...buttons].forEach((b) => {
+                    b.className = '';
+                });
+                
+                // Add the active class to the pagination button that was just clicked.
+                e.target.className = 'active';
+                
+                // Call the showPage function passing the list parameter and the page number to display as arguments.
+                const page = parseInt(e.target.textContent, 10);
+                showPage(list, page);
+            }
+        });    
     }
-    
-    // Select the first pagination button and give it a class name of active.
-    const first = buttonList.firstElementChild.querySelector('button');
-    first.className = 'active';
-    
-    // Create an event listener to listen for clicks on the link-list variable that you created earlier.
-    buttonList.addEventListener('click', (e) => {
-        // The click event should only fire when the buttons are clicked.
-        if (e.target.tagName === 'BUTTON') {
-            // Remove the active class from any other pagination button.
-            const buttons = buttonList.querySelectorAll('BUTTON');
-            [...buttons].forEach((b) => {
-                b.className = '';
-            });
-            
-            // Add the active class to the pagination button that was just clicked.
-            e.target.className = 'active';
-            
-            // Call the showPage function passing the list parameter and the page number to display as arguments.
-            const page = parseInt(e.target.textContent, 10);
-            showPage(list, page);
-        }
-    });
 };
 
 // Call functions
