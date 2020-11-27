@@ -50,12 +50,12 @@ const showSubPage = (e) => {
         trim() whitespace to allow for the possibility of a pattern including portions of both the first and last name. 
         The pattern "ary j" will yield a match for "Mary Jane", while the pattern "ary " will match "Mary Jane" as well as "Karyn Fields".
     */
-    var pattern = searchInput.value.toLowerCase().trim();
-    var sublist = [];
+    let pattern = searchInput.value.toLowerCase().trim();
+    let sublist = [];
     
     // Iterate through the complete list of students, looking for those whose names match or include the search pattern entered by the user
     data.forEach((student) => {
-        var fullName = student.name.first + ' ' + student.name.last;
+        let fullName = student.name.first + ' ' + student.name.last;
         // If the pattern is found in the student name, add the student to our filtered list
         if (fullName.toLowerCase().includes(pattern)) {
             sublist.push(student);
@@ -113,8 +113,8 @@ const showPage = (list, page) => {
         // If the current index (i) is greater than or equal to the start index variable and less than the end index variable...
         if (startIdx <= i && i < endIdx) {
             // Create the DOM elements needed to display the information for each matching student as you iterate over the list parameter. 
-            var info = list[i]
-            var liHTML = `
+            let info = list[i]
+            let liHTML = `
                 <li class="student-item cf">
                   <div class="student-details">
                     <img class="avatar" src=${info.picture.large} alt="Profile Picture">
@@ -153,7 +153,7 @@ const addPagination = (list) => {
     if (pageCount > 1) {    
         for (let i = 1; i <= pageCount; i++) {
             // Create the DOM elements needed to display the pagination button as you iterate over the number of pages.
-            var buttonHTML = `
+            let buttonHTML = `
                 <li>
                   <button type="button">${i}</button>
                 </li>
