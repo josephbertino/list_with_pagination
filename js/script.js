@@ -22,24 +22,6 @@ const searchButton = searchLabel.querySelector('button');
 
 /**
  *
- * When the "Search" button is clicked, call showSubPage().
- * 
- */
-searchButton.addEventListener('click', (e) => {
-    showSubPage(e);
-});
-
-/**
- *
- * When the "Search" input value is updated, call showSubPage().
- *
- */
-searchInput.addEventListener('keyup', (e) => {
-    showSubPage(e);
-});
-
-/**
- *
  * Filter and display the student cards based on the search pattern.
  *
  * @param {Event}   e   The search event. Not used currently.
@@ -73,7 +55,46 @@ const showSubPage = (e) => {
 };
 
 /**
- * Print a "No results" message to the screen.
+ *
+ * When the "Search" button is clicked, call showSubPage().
+ * 
+ */
+searchButton.addEventListener('click', (e) => {
+    showSubPage(e);
+});
+
+/**
+ *
+ * When the "Search" input value is updated, call showSubPage().
+ *
+ */
+searchInput.addEventListener('keyup', (e) => {
+    if (searchInput.value.trim() === '') {
+        // If input is empty, show full student list by default.
+        showPage(data, 1);
+        addPagination(data);
+    } else {
+        showSubPage(e);
+    }
+});
+
+/**
+ * Clear the pagination buttons from the page.
+ * 
+ * @return {HTMLElement} buttonList     The DOM UL element with class 'link-list'
+ * 
+*/
+const clearButtons = () => {
+    // Select the UL element with a class of link-list and assign its value to a variable. 
+    const buttonList = document.querySelector('ul.link-list');
+    // Use the innerHTML property to set the HTML content of the link-list variable you just created to an empty string. 
+    buttonList.innerHTML = '';
+    
+    return buttonList;
+};
+
+/**
+ * Print a "No results" message to the screen and remove pagination buttons.
  * 
  * The ul.innerHTML will be re-set when the search pattern is updated.
  * 
@@ -83,6 +104,8 @@ const noResults = () => {
     ul.innerHTML = `
         <p>No results found. Try another search pattern.</p>
     `;
+    
+    clearButtons();
 };
 
 ////// END SEARCH BAR FUNCTIONALITY
@@ -143,10 +166,7 @@ const addPagination = (list) => {
     // Create a variable to store the value of the number of pagination buttons needed.
     const pageCount = Math.ceil(list.length / 9)
     
-    // Select the UL element with a class of link-list and assign its value to a variable. 
-    const buttonList = document.querySelector('ul.link-list');
-    // Use the innerHTML property set the HTML content of the link-list variable you just created to an empty string. 
-    buttonList.innerHTML = '';
+    buttonList = clearButtons();
     
     // Only create pagination buttons (and their listener events) if there will be at least 2.
     if (pageCount > 1) {    
